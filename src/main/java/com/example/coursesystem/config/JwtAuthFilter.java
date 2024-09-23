@@ -21,7 +21,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
-    private final List<String> urlsToSkip = List.of("/auth/register", "/swagger-ui.html", "/swagger-ui/.*", "/v3/api-docs/.*", "/v3/api-docs", "/favicon.ico");
+    private final List<String> urlsToSkip = List.of("/auth/register", "/auth/.*", "/swagger-ui.html", "/swagger-ui/.*", "/v3/api-docs/.*", "/v3/api-docs", "/favicon.ico");
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {

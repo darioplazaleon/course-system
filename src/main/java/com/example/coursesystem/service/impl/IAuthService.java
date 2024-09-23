@@ -4,6 +4,7 @@ import com.example.coursesystem.config.JwtAuthenticationProvider;
 import com.example.coursesystem.dto.JwtResponseDTO;
 import com.example.coursesystem.dto.UserAddDTO;
 import com.example.coursesystem.dto.UserDTO;
+import com.example.coursesystem.dto.UserLoginDTO;
 import com.example.coursesystem.entity.User;
 import com.example.coursesystem.exception.EmailValidationException;
 import com.example.coursesystem.repository.UserRepository;
@@ -12,6 +13,8 @@ import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,8 +28,18 @@ public class IAuthService implements AuthService {
 
 
     @Override
-    public JwtResponseDTO login(UserAddDTO userAddDTO) {
-        return null;
+    public JwtResponseDTO login(UserLoginDTO userLoginDTO) {
+        Optional<User> user = userRepository.findByEmail(userLoginDTO.email());
+
+        if (user.isEmpty()) {
+            throw new EntityExistsException("User with email " + userLoginDTO.email() + " does not exist");
+        }
+
+        if (!passwordEncoder.matches(userLoginDTO.password(), user.get().getPassword())) {
+            throw new EntityExistsException("Invalid password");
+        }
+
+        return new JwtResponseDTO(jwtAuthenticationProvider.createToken(new UserDTO(user.get())));
     }
 
     @Override
