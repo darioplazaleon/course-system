@@ -1,11 +1,18 @@
 package com.example.coursesystem.entity;
 
+import com.example.coursesystem.dto.UserAddDTO;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +31,10 @@ public class User {
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
 
+    public User(UserAddDTO userAddDTO, String password) {
+        this.name = userAddDTO.name();
+        this.email = userAddDTO.email();
+        this.password = password;
+        this.role = Role.STUDENT;
+    }
 }
