@@ -7,11 +7,9 @@ import com.example.coursesystem.dto.UserLoginDTO;
 import com.example.coursesystem.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,5 +28,11 @@ public class AuthController {
     public ResponseEntity<UserDTO> register(@RequestBody @Valid UserAddDTO userAddDTO) {
         var user = authService.register(userAddDTO);
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<JwtResponseDTO> logout(@RequestHeader(name = HttpHeaders.AUTHORIZATION) String token) {
+        var jwtResponseDTO = authService.logout(token);
+        return ResponseEntity.ok(jwtResponseDTO);
     }
 }

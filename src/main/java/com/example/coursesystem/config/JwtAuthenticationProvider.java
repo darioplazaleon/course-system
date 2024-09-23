@@ -55,6 +55,15 @@ public class JwtAuthenticationProvider {
         rolesAndAuthorities.add(new SimpleGrantedAuthority("ROLE_" + exist.role()));
         return new UsernamePasswordAuthenticationToken(exist, token, rolesAndAuthorities);
     }
+
+    public String deleteToken(String token) {
+        if (!listTokens.containsKey(token)) {
+            return "Token not found";
+        }
+
+        listTokens.remove(token);
+        return "Session closed";
+    }
 }
 
 

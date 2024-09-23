@@ -44,7 +44,8 @@ public class IAuthService implements AuthService {
 
     @Override
     public JwtResponseDTO logout(String token) {
-        return null;
+        String[] parts = token.split(" ");
+        return new JwtResponseDTO(jwtAuthenticationProvider.deleteToken(parts[1]));
     }
 
     @Override
