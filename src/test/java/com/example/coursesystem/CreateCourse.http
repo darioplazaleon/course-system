@@ -1,0 +1,18 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+### POST request with Authorization token
+POST http://localhost:8080/courses/create
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6MiwiZXhwIjoxNzI3MTM5OTc5LCJpYXQiOjE3MjcxMzYzNzksImVtYWlsIjoiZGFyaW9AZ21haWwuY29tIn0.YLAH3ydJueXUue2Pi-ibZVQiJDemPB3M9Swy0hzGXTM
+Content-Type: application/json
+
+{
+"title": "Java con spring 2",
+"description": "Curso de Java con Spring",
+"instructorId": 2
+}
+
+###

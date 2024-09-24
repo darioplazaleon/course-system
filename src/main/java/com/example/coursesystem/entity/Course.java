@@ -20,7 +20,7 @@ public class Course {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "instructor_id")
+    @JoinColumn(name = "instructor_id", nullable = false)
     private User instructor;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
@@ -32,8 +32,10 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Rating> ratings;
 
-    public Course(CourseAddDTO courseAddDTO) {
+    public Course(CourseAddDTO courseAddDTO, User instructor) {
         this.title = courseAddDTO.title();
         this.description = courseAddDTO.description();
+        this.instructor = instructor;
     }
+
 }

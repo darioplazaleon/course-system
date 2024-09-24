@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -42,7 +43,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String[] parts = header.split(" ");
 
+        System.out.println("voy a imprimir los parts" + Arrays.toString(parts));
+
         if (parts.length != 2 || !"Bearer".equals(parts[0])) {
+            System.out.println("Invalid Authorization header");
             throw new UnauthorizedException();
         }
 

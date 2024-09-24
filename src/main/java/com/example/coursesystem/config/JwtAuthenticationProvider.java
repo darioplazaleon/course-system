@@ -43,11 +43,17 @@ public class JwtAuthenticationProvider {
     }
 
     public Authentication validateToken(String token) throws AuthenticationException {
-        JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+        try {
+            JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+        } catch (Exception e) {
+            System.out.println("Token verification failed: " + e.getMessage());
+            throw new BadCredentialsException("Invalid token");
+        }
 
         HashSet<SimpleGrantedAuthority> rolesAndAuthorities = new HashSet<>();
 
         UserDTO exist = listTokens.get(token);
+
         if (exist == null) {
             throw new BadCredentialsException("User not registered");
         }
