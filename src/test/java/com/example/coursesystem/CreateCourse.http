@@ -1,12 +1,12 @@
 ### GET request to example server
 GET https://examples.http-client.intellij.net/get
     ?generated-in=IntelliJ IDEA
-
 ###
+
 
 ### POST request with Authorization token
 POST http://localhost:8080/courses/create
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiQURNSU4iLCJpZCI6MiwiZXhwIjoxNzI3MTM5OTc5LCJpYXQiOjE3MjcxMzYzNzksImVtYWlsIjoiZGFyaW9AZ21haWwuY29tIn0.YLAH3ydJueXUue2Pi-ibZVQiJDemPB3M9Swy0hzGXTM
+Authorization: Bearer
 Content-Type: application/json
 
 {
@@ -14,5 +14,39 @@ Content-Type: application/json
 "description": "Curso de Java con Spring",
 "instructorId": 2
 }
+
+###
+
+### GET course by id
+
+GET http://localhost:8080/courses/1
+Authorization: Bearer {{token}}
+
+###
+
+### GET all courses
+
+GET http://localhost:8080/courses/all
+Authorization: Bearer {{token}}
+
+###
+
+### PUT course by id
+
+PUT http://localhost:8080/courses/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Java con spring 3",
+  "description": "Curso de Java con Spring",
+  "instructorId": 2
+}
+###
+
+### DELETE course by id
+
+DELETE http://localhost:8080/courses/1
+Authorization: Bearer {{token}}
 
 ###

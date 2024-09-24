@@ -38,4 +38,9 @@ public class Course {
         this.instructor = instructor;
     }
 
+    public void updateInfo(CourseAddDTO courseAddDTO) {
+        this.title = courseAddDTO.title();
+        this.description = courseAddDTO.description();
+    }
+
 }
