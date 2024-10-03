@@ -2,6 +2,7 @@ package com.example.coursesystem.config;
 
 import com.example.coursesystem.entity.Role;
 import com.example.coursesystem.exception.AccessDeniedHandlerException;
+import com.example.coursesystem.security.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

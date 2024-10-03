@@ -1,4 +1,4 @@
-package com.example.coursesystem.config;
+package com.example.coursesystem.security;
 
 import com.example.coursesystem.exception.UnauthorizedException;
 import jakarta.servlet.FilterChain;

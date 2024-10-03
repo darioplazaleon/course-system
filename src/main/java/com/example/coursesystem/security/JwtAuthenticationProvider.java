@@ -1,4 +1,4 @@
-package com.example.coursesystem.config;
+package com.example.coursesystem.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

@@ -1,5 +1,7 @@
 package com.example.coursesystem.config;
 
+import com.example.coursesystem.security.JwtAuthFilter;
+import com.example.coursesystem.security.JwtAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

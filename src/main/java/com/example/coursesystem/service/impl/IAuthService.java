@@ -1,6 +1,8 @@
 package com.example.coursesystem.service.impl;
 
-import com.example.coursesystem.config.JwtAuthenticationProvider;
+import com.example.coursesystem.exception.InvalidPasswordException;
+import com.example.coursesystem.exception.UserNotFoundException;
+import com.example.coursesystem.security.JwtAuthenticationProvider;
 import com.example.coursesystem.dto.JwtResponseDTO;
 import com.example.coursesystem.dto.UserAddDTO;
 import com.example.coursesystem.dto.UserDTO;
@@ -32,11 +34,11 @@ public class IAuthService implements AuthService {
         Optional<User> user = userRepository.findByEmail(userLoginDTO.email());
 
         if (user.isEmpty()) {
-            throw new EntityExistsException("User with email " + userLoginDTO.email() + " does not exist");
+            throw new UserNotFoundException("User with email " + userLoginDTO.email() + " does not exist");
         }
 
         if (!passwordEncoder.matches(userLoginDTO.password(), user.get().getPassword())) {
-            throw new EntityExistsException("Invalid password");
+            throw new InvalidPasswordException("Invalid password");
         }
 
         return new JwtResponseDTO(jwtAuthenticationProvider.createToken(new UserDTO(user.get())));
