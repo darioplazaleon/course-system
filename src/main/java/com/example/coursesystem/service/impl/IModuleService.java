@@ -1,5 +1,6 @@
 package com.example.coursesystem.service.impl;
 
+import com.example.coursesystem.dto.ModuleAddDTO;
 import com.example.coursesystem.dto.ModuleDTO;
 import com.example.coursesystem.entity.Module;
 import com.example.coursesystem.repository.CourseRepository;
@@ -18,15 +19,15 @@ public class IModuleService implements ModuleService {
     private final CourseRepository courseRepository;
 
     @Override
-    public ModuleDTO createModule(ModuleDTO moduleDTO) {
-        if(moduleRepository.existsByTitle(moduleDTO.title())) {
-            throw new IllegalArgumentException("Module with title " + moduleDTO.title() + " already exists");
+    public ModuleDTO createModule(ModuleAddDTO moduleAddDTO) {
+        if(moduleRepository.existsByTitle(moduleAddDTO.title())) {
+            throw new IllegalArgumentException("Module with title " + moduleAddDTO.title() + " already exists");
         }
 
-        var course = courseRepository.findById(moduleDTO.courseId())
-                .orElseThrow(() -> new IllegalArgumentException("Course with id " + moduleDTO.courseId() + " not found"));
+        var course = courseRepository.findById(moduleAddDTO.courseId())
+                .orElseThrow(() -> new IllegalArgumentException("Course with id " + moduleAddDTO.courseId() + " not found"));
 
-        var module = new Module(moduleDTO, course);
+        var module = new Module(moduleAddDTO, course);
 
         moduleRepository.save(module);
 

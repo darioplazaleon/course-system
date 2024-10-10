@@ -1,5 +1,6 @@
 package com.example.coursesystem.entity;
 
+import com.example.coursesystem.dto.ModuleAddDTO;
 import com.example.coursesystem.dto.ModuleDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,8 +26,8 @@ public class Module {
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
     private List<Lesson> lessons;
 
-    public Module(ModuleDTO moduleDTO, Course course) {
-        this.title = moduleDTO.title();
+    public Module(ModuleAddDTO moduleAddDTO, Course course) {
+        this.title = moduleAddDTO.title();
         this.course = course;
     }
 

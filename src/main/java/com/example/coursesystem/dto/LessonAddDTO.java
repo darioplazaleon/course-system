@@ -1,8 +1,10 @@
 package com.example.coursesystem.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public record LessonAddDTO(
         String title,
-        String videoUrl,
-        Long moduleId
+        Long moduleId,
+        MultipartFile video
 ) {
 }

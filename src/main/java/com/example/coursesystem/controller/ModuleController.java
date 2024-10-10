@@ -1,5 +1,6 @@
 package com.example.coursesystem.controller;
 
+import com.example.coursesystem.dto.ModuleAddDTO;
 import com.example.coursesystem.dto.ModuleDTO;
 import com.example.coursesystem.service.impl.IModuleService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,8 @@ public class ModuleController {
     private final IModuleService moduleService;
 
     @PostMapping("/create")
-    public ResponseEntity<ModuleDTO> createModule(@RequestBody ModuleDTO moduleDTO) {
-        var module = moduleService.createModule(moduleDTO);
+    public ResponseEntity<ModuleDTO> createModule(@RequestBody ModuleAddDTO moduleAddDTO) {
+        var module = moduleService.createModule(moduleAddDTO);
         return ResponseEntity.ok(module);
     }
 }

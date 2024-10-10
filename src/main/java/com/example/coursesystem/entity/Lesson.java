@@ -1,9 +1,15 @@
 package com.example.coursesystem.entity;
 
+import com.example.coursesystem.dto.LessonAddDTO;
+import com.example.coursesystem.dto.LessonDTO;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "lessons")
+@Getter
+@NoArgsConstructor
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +21,10 @@ public class Lesson {
     @ManyToOne
     @JoinColumn(name = "module_id")
     private Module module;
+
+    public Lesson(LessonAddDTO lessonAddDTO, Module module, String videoUrl) {
+        this.title = lessonAddDTO.title();
+        this.module = module;
+        this.videoUrl = videoUrl;
+    }
 }

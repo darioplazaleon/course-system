@@ -33,6 +33,7 @@ public class SecurityConfig {
                                 .requestMatchers("/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/users/.*").hasAnyRole(Role.STUDENT.name(), Role.INSTRUCTOR.name(), Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST, "/courses/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "/lessons/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
                 .build();
