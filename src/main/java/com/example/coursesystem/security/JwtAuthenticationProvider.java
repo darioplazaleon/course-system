@@ -2,6 +2,8 @@ package com.example.coursesystem.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.coursesystem.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +22,11 @@ public class JwtAuthenticationProvider {
 
     @Value("${jwt.secret.key}")
     private String secretKey;
+
+    public Long getUserId(String token) {
+        DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+        return jwt.getClaim("id").asLong();
+    }
 
     private HashMap<String, UserDTO> listTokens = new HashMap<>();
 
@@ -44,22 +51,22 @@ public class JwtAuthenticationProvider {
 
     public Authentication validateToken(String token) throws AuthenticationException {
         try {
-            JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+            Long userId = decodedJWT.getClaim("id").asLong();
+            String role = decodedJWT.getClaim("role").asString();
+
+            UserDTO user = listTokens.get(token);
+            if (user == null) {
+                throw new BadCredentialsException("User not registered");
+            }
+
+            HashSet<SimpleGrantedAuthority> rolesAndAuthorities = new HashSet<>();
+            rolesAndAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+
+            return new UsernamePasswordAuthenticationToken(user, token, rolesAndAuthorities);
         } catch (Exception e) {
-            System.out.println("Token verification failed: " + e.getMessage());
-            throw new BadCredentialsException("Invalid token");
+            throw new BadCredentialsException("Invalid token", e);
         }
-
-        HashSet<SimpleGrantedAuthority> rolesAndAuthorities = new HashSet<>();
-
-        UserDTO exist = listTokens.get(token);
-
-        if (exist == null) {
-            throw new BadCredentialsException("User not registered");
-        }
-
-        rolesAndAuthorities.add(new SimpleGrantedAuthority("ROLE_" + exist.role()));
-        return new UsernamePasswordAuthenticationToken(exist, token, rolesAndAuthorities);
     }
 
     public String deleteToken(String token) {

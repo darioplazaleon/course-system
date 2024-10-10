@@ -10,7 +10,7 @@ public class Lesson {
     private Long id;
 
     private String title;
-    private String content;
+    private String videoUrl;
 
     @ManyToOne
     @JoinColumn(name = "module_id")

@@ -44,6 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String[] parts = header.split(" ");
 
         System.out.println("voy a imprimir los parts" + Arrays.toString(parts));
+        System.out.println(parts[1]);
 
         if (parts.length != 2 || !"Bearer".equals(parts[0])) {
             System.out.println("Invalid Authorization header");
@@ -51,15 +52,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         try {
-            Authentication auth = jwtAuthenticationProvider.validateToken(parts[1]);
+            String token = parts[1];
+            System.out.println("Token received: " + token);
+            Authentication auth = jwtAuthenticationProvider.validateToken(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
 
-            System.out.println("voy a imprimir el context");
-            System.out.println(SecurityContextHolder.getContext());
-            System.out.println("voy a imprimir la autenticacion");
-            System.out.println(SecurityContextHolder.getContext().getAuthentication());
+            System.out.println("Security context: " + SecurityContextHolder.getContext());
+            System.out.println("Authentication: " + SecurityContextHolder.getContext().getAuthentication());
         } catch (RuntimeException e) {
-            System.out.println("Authentication failed");
+            System.out.println("Authentication failed: " + e.getMessage());
             SecurityContextHolder.clearContext();
             throw new UnauthorizedException();
         }
