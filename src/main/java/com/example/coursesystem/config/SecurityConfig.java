@@ -34,6 +34,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/users/.*").hasAnyRole(Role.STUDENT.name(), Role.INSTRUCTOR.name(), Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST, "/courses/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST, "/lessons/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "/modules/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                                .requestMatchers(HttpMethod.POST, "/videos/upload").hasAnyRole(Role.INSTRUCTOR.name() ,Role.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
                 .build();

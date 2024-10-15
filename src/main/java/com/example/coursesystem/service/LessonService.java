@@ -1,8 +1,7 @@
 package com.example.coursesystem.service;
 
-import com.example.coursesystem.dto.LessonAddDTO;
-import com.example.coursesystem.dto.LessonDTO;
-import org.springframework.web.multipart.MultipartFile;
+import com.example.coursesystem.dto.lesson.LessonAddDTO;
+import com.example.coursesystem.dto.lesson.LessonDTO;
 
 import java.io.IOException;
 

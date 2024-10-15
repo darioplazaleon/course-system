@@ -1,16 +1,18 @@
 package com.example.coursesystem.entity;
 
-import com.example.coursesystem.dto.ModuleAddDTO;
-import com.example.coursesystem.dto.ModuleDTO;
+import com.example.coursesystem.dto.module.ModuleAddDTO;
+import com.example.coursesystem.dto.module.ModuleDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "modules")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Module {
     @Id

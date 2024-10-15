@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.UUID;
 
 @Service
 public class AzureBlobService {
@@ -29,11 +30,12 @@ public class AzureBlobService {
 
         BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
 
+        String uniqueFileName = generateUniqueFileName(file, "lesson");
+
         File tempFile = File.createTempFile("temp", file.getOriginalFilename());
         file.transferTo(tempFile);
 
-        BlobClient blobClient = containerClient.getBlobClient(file.getOriginalFilename());
-
+        BlobClient blobClient = containerClient.getBlobClient(uniqueFileName);
         blobClient.uploadFromFile(tempFile.getAbsolutePath(), true);
 
         String videoUrl = blobClient.getBlobUrl();
@@ -41,5 +43,16 @@ public class AzureBlobService {
         tempFile.delete();
 
         return videoUrl;
+    }
+
+    private String generateUniqueFileName(MultipartFile file, String lessonTitle) {
+        String normalizedTitle = lessonTitle.replaceAll("\\s+", "_");
+
+        String originalFileName = file.getOriginalFilename();
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+
+        String uuid = UUID.randomUUID().toString();
+
+        return normalizedTitle + "_" + uuid + fileExtension;
     }
 }

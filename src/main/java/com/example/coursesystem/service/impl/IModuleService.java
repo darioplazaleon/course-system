@@ -1,7 +1,11 @@
 package com.example.coursesystem.service.impl;
 
-import com.example.coursesystem.dto.ModuleAddDTO;
-import com.example.coursesystem.dto.ModuleDTO;
+import com.example.coursesystem.dto.lesson.LessonAddDTO;
+import com.example.coursesystem.dto.lesson.LessonDTO;
+import com.example.coursesystem.dto.module.ModuleAddDTO;
+import com.example.coursesystem.dto.module.ModuleDTO;
+import com.example.coursesystem.dto.module.ModuleWithLessonsDTO;
+import com.example.coursesystem.entity.Lesson;
 import com.example.coursesystem.entity.Module;
 import com.example.coursesystem.repository.CourseRepository;
 import com.example.coursesystem.repository.ModuleRepository;
@@ -10,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -32,6 +37,12 @@ public class IModuleService implements ModuleService {
         moduleRepository.save(module);
 
         return new ModuleDTO(module);
+    }
+
+    @Override
+    @Transactional
+    public ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO) {
+        return null;
     }
 
     @Override

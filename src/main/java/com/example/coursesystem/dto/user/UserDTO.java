@@ -1,4 +1,4 @@
-package com.example.coursesystem.dto;
+package com.example.coursesystem.dto.user;
 
 import com.example.coursesystem.entity.Role;
 import com.example.coursesystem.entity.User;

@@ -1,7 +1,7 @@
 package com.example.coursesystem.service.impl;
 
-import com.example.coursesystem.dto.LessonAddDTO;
-import com.example.coursesystem.dto.LessonDTO;
+import com.example.coursesystem.dto.lesson.LessonAddDTO;
+import com.example.coursesystem.dto.lesson.LessonDTO;
 import com.example.coursesystem.entity.Lesson;
 import com.example.coursesystem.entity.Module;
 import com.example.coursesystem.repository.LessonRepository;
@@ -9,7 +9,6 @@ import com.example.coursesystem.repository.ModuleRepository;
 import com.example.coursesystem.service.LessonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 

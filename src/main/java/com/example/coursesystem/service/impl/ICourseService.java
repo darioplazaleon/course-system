@@ -1,11 +1,12 @@
 package com.example.coursesystem.service.impl;
 
-import com.example.coursesystem.dto.CourseAddDTO;
-import com.example.coursesystem.dto.CourseDTO;
+import com.example.coursesystem.dto.course.CourseAddDTO;
+import com.example.coursesystem.dto.course.CourseDTO;
 import com.example.coursesystem.entity.Course;
 import com.example.coursesystem.entity.User;
 import com.example.coursesystem.repository.CourseRepository;
 import com.example.coursesystem.repository.UserRepository;
+import com.example.coursesystem.security.JwtAuthenticationProvider;
 import com.example.coursesystem.service.CourseService;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,15 +21,18 @@ public class ICourseService implements CourseService {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Override
-    public CourseDTO createCourse(CourseAddDTO courseAddDTO) {
+    public CourseDTO createCourse(CourseAddDTO courseAddDTO, String token) {
         if (courseRepository.existsByTitle(courseAddDTO.title())) {
             throw new EntityExistsException("Course with title " + courseAddDTO.title() + " already exists");
         }
 
-        User instructor = userRepository.findById(courseAddDTO.instructorId())
-                .orElseThrow(() -> new IllegalArgumentException("Instructor with id " + courseAddDTO.instructorId() + " not found"));
+        Long userId = jwtAuthenticationProvider.getUserId(token);
+
+        User instructor = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("Instructor with id " + userId + " not found"));
 
         var course = new Course(courseAddDTO, instructor);
 

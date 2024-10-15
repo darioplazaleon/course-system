@@ -1,4 +1,4 @@
-package com.example.coursesystem.dto;
+package com.example.coursesystem.dto.module;
 
 public record ModuleAddDTO(
         String title,

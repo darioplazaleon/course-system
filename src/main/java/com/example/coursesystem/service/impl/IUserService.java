@@ -1,6 +1,6 @@
 package com.example.coursesystem.service.impl;
 
-import com.example.coursesystem.dto.UserDTO;
+import com.example.coursesystem.dto.user.UserDTO;
 import com.example.coursesystem.repository.UserRepository;
 import com.example.coursesystem.security.JwtAuthenticationProvider;
 import com.example.coursesystem.service.UserService;

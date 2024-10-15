@@ -1,4 +1,4 @@
-package com.example.coursesystem.dto;
+package com.example.coursesystem.dto.lesson;
 
 import com.example.coursesystem.entity.Lesson;
 

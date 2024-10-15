@@ -1,8 +1,6 @@
-package com.example.coursesystem.dto;
+package com.example.coursesystem.dto.course;
 
 import com.example.coursesystem.entity.Course;
-
-import java.util.List;
 
 public record CourseDTO(
         Long id,

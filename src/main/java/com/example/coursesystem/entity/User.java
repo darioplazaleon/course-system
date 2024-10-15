@@ -1,6 +1,6 @@
 package com.example.coursesystem.entity;
 
-import com.example.coursesystem.dto.UserAddDTO;
+import com.example.coursesystem.dto.user.UserAddDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

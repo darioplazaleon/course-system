@@ -1,6 +1,6 @@
 package com.example.coursesystem.controller;
 
-import com.example.coursesystem.dto.UserDTO;
+import com.example.coursesystem.dto.user.UserDTO;
 import com.example.coursesystem.service.impl.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

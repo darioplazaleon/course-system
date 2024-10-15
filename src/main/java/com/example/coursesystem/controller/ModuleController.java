@@ -1,7 +1,7 @@
 package com.example.coursesystem.controller;
 
-import com.example.coursesystem.dto.ModuleAddDTO;
-import com.example.coursesystem.dto.ModuleDTO;
+import com.example.coursesystem.dto.module.ModuleAddDTO;
+import com.example.coursesystem.dto.module.ModuleDTO;
 import com.example.coursesystem.service.impl.IModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

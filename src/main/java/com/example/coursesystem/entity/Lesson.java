@@ -1,7 +1,6 @@
 package com.example.coursesystem.entity;
 
-import com.example.coursesystem.dto.LessonAddDTO;
-import com.example.coursesystem.dto.LessonDTO;
+import com.example.coursesystem.dto.lesson.LessonAddDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
