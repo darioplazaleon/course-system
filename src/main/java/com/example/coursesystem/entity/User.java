@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -30,6 +32,14 @@ public class User {
 
     @OneToMany(mappedBy = "student")
     private List<Enrollment> enrollments;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorite_courses",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> favoriteCourses = new HashSet<>();
 
     public User(UserAddDTO userAddDTO, String password) {
         this.name = userAddDTO.name();

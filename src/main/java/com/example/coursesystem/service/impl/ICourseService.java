@@ -4,7 +4,9 @@ import com.example.coursesystem.dto.course.CourseAddDTO;
 import com.example.coursesystem.dto.course.CourseDTO;
 import com.example.coursesystem.entity.Course;
 import com.example.coursesystem.entity.User;
+import com.example.coursesystem.repository.CategoryRepository;
 import com.example.coursesystem.repository.CourseRepository;
+import com.example.coursesystem.repository.LanguageRepository;
 import com.example.coursesystem.repository.UserRepository;
 import com.example.coursesystem.security.JwtAuthenticationProvider;
 import com.example.coursesystem.service.CourseService;
@@ -21,6 +23,8 @@ public class ICourseService implements CourseService {
 
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final LanguageRepository languageRepository;
     private final JwtAuthenticationProvider jwtAuthenticationProvider;
 
     @Override
@@ -34,7 +38,13 @@ public class ICourseService implements CourseService {
         User instructor = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Instructor with id " + userId + " not found"));
 
+        var categories = categoryRepository.findAllById(courseAddDTO.categoryIds());
+        var languages = languageRepository.findAllById(courseAddDTO.languageIds());
+
         var course = new Course(courseAddDTO, instructor);
+
+        course.getCategories().addAll(categories);
+        course.getLanguages().addAll(languages);
 
         courseRepository.save(course);
         return new CourseDTO(course);

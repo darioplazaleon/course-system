@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -18,6 +21,7 @@ public class Course {
 
     private String title;
     private String description;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "instructor_id", nullable = false)
@@ -32,9 +36,26 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<Rating> ratings;
 
+    @ManyToMany
+    @JoinTable(
+            name = "course_languages",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
+    private Set<Language> languages = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "course_categories",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories = new HashSet<>();
+
     public Course(CourseAddDTO courseAddDTO, User instructor) {
         this.title = courseAddDTO.title();
         this.description = courseAddDTO.description();
+        this.price = courseAddDTO.price();
         this.instructor = instructor;
     }
 
