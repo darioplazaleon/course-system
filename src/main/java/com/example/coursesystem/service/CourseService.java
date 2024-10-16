@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface CourseService {
     CourseDTO createCourse(CourseAddDTO courseAddDTO, String token);
     Page<CourseDTO> getAllCourses(Pageable pageable);
+    Page<CourseDTO> getAllCoursesByUserId(Pageable pageable, String token);
     CourseDTO getCourseById(Long id);
     void deleteCourseById(Long id);
     CourseDTO updateCourse(Long id, CourseAddDTO courseAddDTO);

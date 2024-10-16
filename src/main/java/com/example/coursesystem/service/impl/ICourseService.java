@@ -29,12 +29,7 @@ public class ICourseService implements CourseService {
             throw new EntityExistsException("Course with title " + courseAddDTO.title() + " already exists");
         }
 
-        System.out.println("Entry createCourse service");
-        System.out.println("courseAddDTO: " + courseAddDTO);
-        System.out.println("token: " + token);
-
         Long userId = jwtAuthenticationProvider.getUserId(token);
-        System.out.println("userId: " + userId);
 
         User instructor = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Instructor with id " + userId + " not found"));
@@ -48,6 +43,12 @@ public class ICourseService implements CourseService {
     @Override
     public Page<CourseDTO> getAllCourses(Pageable pageable) {
         return courseRepository.findAll(pageable).map(CourseDTO::new);
+    }
+
+    @Override
+    public Page<CourseDTO> getAllCoursesByUserId(Pageable pageable, String token) {
+        Long userId = jwtAuthenticationProvider.getUserId(token);
+        return courseRepository.findAllByInstructorId(userId, pageable).map(CourseDTO::new);
     }
 
     @Override

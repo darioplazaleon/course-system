@@ -6,6 +6,8 @@ import com.example.coursesystem.service.impl.ICourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedModel;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,13 @@ public class CourseController {
     @GetMapping("/{id}")
     public ResponseEntity<CourseDTO> getCourseById(@PathVariable Long id) {
         return ResponseEntity.ok(courseService.getCourseById(id));
+    }
+
+    @GetMapping("/instructor")
+    public ResponseEntity<Page<CourseDTO>> getCoursesByUser(Pageable pageable, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        String token = authorizationHeader.split(" ")[1];
+        Page<CourseDTO> coursesPage = courseService.getAllCoursesByUserId(pageable, token);
+        return ResponseEntity.ok(coursesPage);
     }
 
     @DeleteMapping("/{id}")
