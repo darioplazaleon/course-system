@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ModuleService {
     ModuleDTO createModule(ModuleAddDTO moduleAddDTO);
-    ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO);
+    ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO, Long courseId);
     Page<ModuleDTO> getCourseModules(Pageable pageable, Long courseId);
     void deleteModuleById(Long id);
     ModuleDTO updateModule(Long id, ModuleDTO moduleDTO);

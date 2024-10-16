@@ -19,7 +19,10 @@ public class CourseController {
 
     @PostMapping("/create")
     public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseAddDTO courseAddDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
+        System.out.println("Entry createCourse controller");
+        System.out.println("Authorization: " + authorizationHeader);
         String token = authorizationHeader.split(" ")[1];
+        System.out.println("Token: " + token);
         var course = courseService.createCourse(courseAddDTO, token);
         return ResponseEntity.ok(course);
     }

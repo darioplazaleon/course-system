@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,14 +27,24 @@ public class Module {
     private Course course;
 
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL)
-    private List<Lesson> lessons;
+    private List<Lesson> lessons = new ArrayList<>();
 
     public Module(ModuleAddDTO moduleAddDTO, Course course) {
         this.title = moduleAddDTO.title();
         this.course = course;
     }
 
+    public Module(String title, Course course) {
+        this.title = title;
+        this.course = course;
+    }
+
     public void updateInfo(ModuleDTO moduleDTO) {
         this.title = moduleDTO.title();
+    }
+
+    public void addLesson(Lesson lesson) {
+        this.lessons.add(lesson);
+        lesson.setModule(this);
     }
 }

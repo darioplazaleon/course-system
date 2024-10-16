@@ -29,7 +29,12 @@ public class ICourseService implements CourseService {
             throw new EntityExistsException("Course with title " + courseAddDTO.title() + " already exists");
         }
 
+        System.out.println("Entry createCourse service");
+        System.out.println("courseAddDTO: " + courseAddDTO);
+        System.out.println("token: " + token);
+
         Long userId = jwtAuthenticationProvider.getUserId(token);
+        System.out.println("userId: " + userId);
 
         User instructor = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("Instructor with id " + userId + " not found"));

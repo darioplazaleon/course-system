@@ -2,6 +2,7 @@ package com.example.coursesystem.service.impl;
 
 import com.example.coursesystem.dto.lesson.LessonAddDTO;
 import com.example.coursesystem.dto.lesson.LessonDTO;
+import com.example.coursesystem.dto.lesson.LessonModuleDTO;
 import com.example.coursesystem.dto.module.ModuleAddDTO;
 import com.example.coursesystem.dto.module.ModuleDTO;
 import com.example.coursesystem.dto.module.ModuleWithLessonsDTO;
@@ -41,8 +42,26 @@ public class IModuleService implements ModuleService {
 
     @Override
     @Transactional
-    public ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO) {
-        return null;
+    public ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO, Long courseId) {
+        if(moduleRepository.existsByTitle(moduleWithLessonsDTO.title())) {
+            throw new IllegalArgumentException("Module with title " + moduleWithLessonsDTO.title() + " already exists");
+        }
+
+        var course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Course with id " + courseId + " not found"));
+
+        var module = new Module(moduleWithLessonsDTO.title(), course);
+
+        moduleRepository.save(module);
+
+        for (LessonModuleDTO lessonModuleDTO : moduleWithLessonsDTO.lessons()) {
+            var lesson = new Lesson(lessonModuleDTO, module);
+            module.addLesson(lesson);
+        }
+
+        moduleRepository.save(module);
+
+        return new ModuleDTO(module);
     }
 
     @Override
