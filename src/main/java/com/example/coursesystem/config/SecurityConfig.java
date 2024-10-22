@@ -50,6 +50,8 @@ public class SecurityConfig {
                     .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
                     .requestMatchers(HttpMethod.POST, "/videos/upload")
                     .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, "/ratings/.*")
+                    .hasAnyRole(Role.STUDENT.name(), Role.ADMIN.name(), Role.INSTRUCTOR.name())
                     .anyRequest()
                     .authenticated())
         .build();

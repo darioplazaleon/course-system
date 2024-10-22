@@ -61,4 +61,12 @@ public class Course {
     this.title = courseAddDTO.title();
     this.description = courseAddDTO.description();
   }
+
+  public double getAverageRating() {
+    if (this.ratings == null || this.ratings.isEmpty()) {
+      return 0.0;
+    }
+
+    return this.ratings.stream().mapToInt(Rating::getScore).average().orElse(0.0);
+  }
 }
