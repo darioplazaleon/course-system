@@ -7,6 +7,7 @@ import com.example.coursesystem.entity.Language;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public record CourseDTO(
@@ -25,7 +26,9 @@ public record CourseDTO(
         course.getDescription(),
         course.getPrice(),
         course.getInstructor().getName(),
-        course.getModules().stream().map(ModuleDTO::new).collect(Collectors.toList()),
+        Optional.ofNullable(course.getModules()).orElse(List.of()).stream()
+            .map(ModuleDTO::new)
+            .collect(Collectors.toList()),
         course.getCategories().stream().map(Category::getName).toList(),
         course.getLanguages().stream().map(Language::getName).toList());
   }

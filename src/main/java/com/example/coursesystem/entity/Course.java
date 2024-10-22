@@ -15,53 +15,50 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String title;
-    private String description;
-    private BigDecimal price;
+  private String title;
+  private String description;
+  private BigDecimal price;
 
-    @ManyToOne
-    @JoinColumn(name = "instructor_id", nullable = false)
-    private User instructor;
+  @ManyToOne
+  @JoinColumn(name = "instructor_id", nullable = false)
+  private User instructor;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Module> modules;
+  @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+  private List<Module> modules;
 
-    @OneToMany(mappedBy = "course")
-    private List<Enrollment> enrollments;
+  @OneToMany(mappedBy = "course")
+  private List<Enrollment> enrollments;
 
-    @OneToMany(mappedBy = "course")
-    private List<Rating> ratings;
+  @OneToMany(mappedBy = "course")
+  private List<Rating> ratings;
 
-    @ManyToMany
-    @JoinTable(
-            name = "course_languages",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "language_id")
-    )
-    private Set<Language> languages = new HashSet<>();
+  @ManyToMany
+  @JoinTable(
+      name = "course_languages",
+      joinColumns = @JoinColumn(name = "course_id"),
+      inverseJoinColumns = @JoinColumn(name = "language_id"))
+  private Set<Language> languages = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-            name = "course_categories",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
+  @ManyToMany
+  @JoinTable(
+      name = "course_categories",
+      joinColumns = @JoinColumn(name = "course_id"),
+      inverseJoinColumns = @JoinColumn(name = "category_id"))
+  private Set<Category> categories = new HashSet<>();
 
-    public Course(CourseAddDTO courseAddDTO, User instructor) {
-        this.title = courseAddDTO.title();
-        this.description = courseAddDTO.description();
-        this.price = courseAddDTO.price();
-        this.instructor = instructor;
-    }
+  public Course(CourseAddDTO courseAddDTO, User instructor) {
+    this.title = courseAddDTO.title();
+    this.description = courseAddDTO.description();
+    this.price = courseAddDTO.price();
+    this.instructor = instructor;
+  }
 
-    public void updateInfo(CourseAddDTO courseAddDTO) {
-        this.title = courseAddDTO.title();
-        this.description = courseAddDTO.description();
-    }
-
+  public void updateInfo(CourseAddDTO courseAddDTO) {
+    this.title = courseAddDTO.title();
+    this.description = courseAddDTO.description();
+  }
 }

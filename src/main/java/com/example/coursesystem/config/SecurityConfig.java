@@ -19,25 +19,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
+  private final JwtAuthFilter jwtAuthFilter;
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .exceptionHandling((exception) -> exception.accessDeniedHandler(new AccessDeniedHandlerException()))
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(request ->
-                        request
-                                .requestMatchers("/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/users/.*").hasAnyRole(Role.STUDENT.name(), Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/courses/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/lessons/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/modules/.*").hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                                .requestMatchers(HttpMethod.POST, "/videos/upload").hasAnyRole(Role.INSTRUCTOR.name() ,Role.ADMIN.name())
-                                .anyRequest().authenticated()
-                )
-                .build();
-    }
+  @Bean
+  public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+    return httpSecurity
+        .exceptionHandling(
+            (exception) -> exception.accessDeniedHandler(new AccessDeniedHandlerException()))
+        .csrf(AbstractHttpConfigurer::disable)
+        .sessionManagement(
+            (session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+        .authorizeHttpRequests(
+            request ->
+                request
+                    .requestMatchers(
+                        "/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/users/.*")
+                    .hasAnyRole(Role.STUDENT.name(), Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, "/users/.*")
+                    .hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(HttpMethod.GET, "/courses/all", "/courses/{id}")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/courses/.*")
+                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, "/lessons/.*")
+                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, "/modules/.*")
+                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, "/videos/upload")
+                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
+                    .anyRequest()
+                    .authenticated())
+        .build();
+  }
 }
