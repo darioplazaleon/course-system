@@ -21,11 +21,7 @@ public class CourseController {
 
     @PostMapping("/create")
     public ResponseEntity<CourseDTO> createCourse(@RequestBody CourseAddDTO courseAddDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        System.out.println("Entry createCourse controller");
-        System.out.println("Authorization: " + authorizationHeader);
-        String token = authorizationHeader.split(" ")[1];
-        System.out.println("Token: " + token);
-        var course = courseService.createCourse(courseAddDTO, token);
+        var course = courseService.createCourse(courseAddDTO, authorizationHeader);
         return ResponseEntity.ok(course);
     }
 
@@ -41,8 +37,7 @@ public class CourseController {
 
     @GetMapping("/instructor")
     public ResponseEntity<Page<CourseDTO>> getCoursesByUser(Pageable pageable, @RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader) {
-        String token = authorizationHeader.split(" ")[1];
-        Page<CourseDTO> coursesPage = courseService.getAllCoursesByUserId(pageable, token);
+        Page<CourseDTO> coursesPage = courseService.getAllCoursesByUserId(pageable, authorizationHeader);
         return ResponseEntity.ok(coursesPage);
     }
 

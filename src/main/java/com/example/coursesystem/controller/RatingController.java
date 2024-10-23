@@ -23,4 +23,13 @@ public class RatingController {
         var rating = ratingService.rateCourse(ratingAddDTO, courseId, token);
         return ResponseEntity.ok(rating);
     }
+
+    @PutMapping("/update/{ratingId}")
+    public ResponseEntity<RatingDTO> updateRating(
+            @PathVariable Long ratingId,
+            @RequestBody RatingAddDTO ratingAddDTO
+    ) {
+        var rating = ratingService.updateRating(ratingAddDTO, ratingId);
+        return ResponseEntity.ok(rating);
+    }
 }

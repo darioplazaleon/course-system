@@ -23,7 +23,8 @@ public class JwtAuthenticationProvider {
     private String secretKey;
 
     public Long getUserId(String token) {
-        DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(token);
+        String tokenJwt = token.split(" ")[1];
+        DecodedJWT jwt = JWT.require(Algorithm.HMAC256(secretKey)).build().verify(tokenJwt);
         return jwt.getClaim("id").asLong();
     }
 
