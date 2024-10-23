@@ -36,4 +36,9 @@ public class Rating {
         this.student = student;
         this.course = course;
     }
+
+    public void updateRating(RatingAddDTO ratingAddDTO) {
+        this.score = ratingAddDTO.score();
+        this.comment = ratingAddDTO.comment();
+    }
 }

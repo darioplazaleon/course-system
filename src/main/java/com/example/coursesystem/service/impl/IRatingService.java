@@ -5,7 +5,6 @@ import com.example.coursesystem.dto.rating.RatingDTO;
 import com.example.coursesystem.entity.Course;
 import com.example.coursesystem.entity.Rating;
 import com.example.coursesystem.entity.User;
-import com.example.coursesystem.exception.UserNotFoundException;
 import com.example.coursesystem.repository.CourseRepository;
 import com.example.coursesystem.repository.RatingRepository;
 import com.example.coursesystem.repository.UserRepository;
@@ -39,5 +38,17 @@ public class IRatingService implements RatingService {
         ratingRepository.save(rating);
 
         return new RatingDTO(rating);
+    }
+
+    @Override
+    public RatingDTO updateRating(RatingAddDTO ratingAddDTO, Long ratingId) {
+        var foundRating = ratingRepository.findById(ratingId)
+                .orElseThrow(() -> new IllegalArgumentException("Rating not found"));
+
+        foundRating.updateRating(ratingAddDTO);
+
+        ratingRepository.save(foundRating);
+
+        return new RatingDTO(foundRating);
     }
 }
