@@ -1,5 +1,6 @@
 package com.example.coursesystem.service.impl;
 
+import com.example.coursesystem.dto.course.CourseDTO;
 import com.example.coursesystem.dto.enrollment.EnrollmentDTO;
 import com.example.coursesystem.entity.Course;
 import com.example.coursesystem.entity.Enrollment;
@@ -11,6 +12,9 @@ import com.example.coursesystem.security.JwtAuthenticationProvider;
 import com.example.coursesystem.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +44,16 @@ public class IEnrollmentService implements EnrollmentService {
     enrollmentRepository.save(enrollment);
 
     return new EnrollmentDTO(enrollment);
+  }
+
+  @Override
+  public List<CourseDTO> getPurchasedCourses(String tokenJwt) {
+    Long userId = jwtAuthenticationProvider.getUserId(tokenJwt);
+
+    List<Course> courses = enrollmentRepository.findCoursesByStudentId(userId);
+
+    return courses.stream()
+            .map(CourseDTO::new)
+            .collect(Collectors.toList());
   }
 }
