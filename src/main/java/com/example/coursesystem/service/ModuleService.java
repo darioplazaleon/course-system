@@ -6,10 +6,12 @@ import com.example.coursesystem.dto.module.ModuleWithLessonsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface ModuleService {
     ModuleDTO createModule(ModuleAddDTO moduleAddDTO);
     ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO, Long courseId);
-    Page<ModuleDTO> getCourseModules(Pageable pageable, Long courseId);
+    List<ModuleDTO> getCourseModules(Long courseId);
     void deleteModuleById(Long id);
     ModuleDTO updateModule(Long id, ModuleDTO moduleDTO);
 }

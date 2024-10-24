@@ -32,7 +32,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
           "/v3/api-docs",
           "/favicon.ico",
           "/courses/all",
-          "/courses/.*");
+          "/courses/.*",
+          "/categories/.*");
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {

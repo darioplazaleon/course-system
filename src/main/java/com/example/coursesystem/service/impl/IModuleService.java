@@ -17,76 +17,92 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class IModuleService implements ModuleService {
 
-    private final ModuleRepository moduleRepository;
-    private final CourseRepository courseRepository;
+  private final ModuleRepository moduleRepository;
+  private final CourseRepository courseRepository;
 
-    @Override
-    public ModuleDTO createModule(ModuleAddDTO moduleAddDTO) {
-        if(moduleRepository.existsByTitle(moduleAddDTO.title())) {
-            throw new IllegalArgumentException("Module with title " + moduleAddDTO.title() + " already exists");
-        }
-
-        var course = courseRepository.findById(moduleAddDTO.courseId())
-                .orElseThrow(() -> new IllegalArgumentException("Course with id " + moduleAddDTO.courseId() + " not found"));
-
-        var module = new Module(moduleAddDTO, course);
-
-        moduleRepository.save(module);
-
-        return new ModuleDTO(module);
+  @Override
+  public ModuleDTO createModule(ModuleAddDTO moduleAddDTO) {
+    if (moduleRepository.existsByTitle(moduleAddDTO.title())) {
+      throw new IllegalArgumentException(
+          "Module with title " + moduleAddDTO.title() + " already exists");
     }
 
-    @Override
-    @Transactional
-    public ModuleDTO createModuleWithLessons(ModuleWithLessonsDTO moduleWithLessonsDTO, Long courseId) {
-        if(moduleRepository.existsByTitle(moduleWithLessonsDTO.title())) {
-            throw new IllegalArgumentException("Module with title " + moduleWithLessonsDTO.title() + " already exists");
-        }
+    var course =
+        courseRepository
+            .findById(moduleAddDTO.courseId())
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException(
+                        "Course with id " + moduleAddDTO.courseId() + " not found"));
 
-        var course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalArgumentException("Course with id " + courseId + " not found"));
+    var module = new Module(moduleAddDTO, course);
 
-        var module = new Module(moduleWithLessonsDTO.title(), course);
+    moduleRepository.save(module);
 
-        moduleRepository.save(module);
+    return new ModuleDTO(module);
+  }
 
-        for (LessonModuleDTO lessonModuleDTO : moduleWithLessonsDTO.lessons()) {
-            var lesson = new Lesson(lessonModuleDTO, module);
-            module.addLesson(lesson);
-        }
-
-        moduleRepository.save(module);
-
-        return new ModuleDTO(module);
+  @Override
+  @Transactional
+  public ModuleDTO createModuleWithLessons(
+      ModuleWithLessonsDTO moduleWithLessonsDTO, Long courseId) {
+    if (moduleRepository.existsByTitle(moduleWithLessonsDTO.title())) {
+      throw new IllegalArgumentException(
+          "Module with title " + moduleWithLessonsDTO.title() + " already exists");
     }
 
-    @Override
-    public Page<ModuleDTO> getCourseModules(Pageable pageable, Long courseId) {
-        return null;
+    var course =
+        courseRepository
+            .findById(courseId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Course with id " + courseId + " not found"));
+
+    var module = new Module(moduleWithLessonsDTO.title(), course);
+
+    moduleRepository.save(module);
+
+    for (LessonModuleDTO lessonModuleDTO : moduleWithLessonsDTO.lessons()) {
+      var lesson = new Lesson(lessonModuleDTO, module);
+      module.addLesson(lesson);
     }
 
-    @Override
-    public void deleteModuleById(Long id) {
-        var foundModule = moduleRepository.findById(id);
-        if (foundModule.isEmpty()) {
-            throw new IllegalArgumentException("Module with id " + id + " not found");
-        } else {
-            moduleRepository.deleteById(id);
-        }
+    moduleRepository.save(module);
+
+    return new ModuleDTO(module);
+  }
+
+  @Override
+  public List<ModuleDTO> getCourseModules(Long courseId) {
+    var modules = courseRepository.findById(courseId).get().getModules();
+    return modules.stream().map(ModuleDTO::new).toList();
+  }
+
+  @Override
+  public void deleteModuleById(Long id) {
+    var foundModule = moduleRepository.findById(id);
+    if (foundModule.isEmpty()) {
+      throw new IllegalArgumentException("Module with id " + id + " not found");
+    } else {
+      moduleRepository.deleteById(id);
     }
+  }
 
-    @Override
-    public ModuleDTO updateModule(Long id, ModuleDTO moduleDTO) {
-        var module = moduleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Module with id " + id + " not found"));
+  @Override
+  public ModuleDTO updateModule(Long id, ModuleDTO moduleDTO) {
+    var module =
+        moduleRepository
+            .findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Module with id " + id + " not found"));
 
-        module.updateInfo(moduleDTO);
-        moduleRepository.save(module);
+    module.updateInfo(moduleDTO);
+    moduleRepository.save(module);
 
-        return new ModuleDTO(module);
-    }
+    return new ModuleDTO(module);
+  }
 }

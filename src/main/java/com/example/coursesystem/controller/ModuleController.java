@@ -32,4 +32,22 @@ public class ModuleController {
         }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/course-modules/{courseId}")
+    public ResponseEntity<List<ModuleDTO>> getCourseModules(@PathVariable Long courseId) {
+        var modules = moduleService.getCourseModules(courseId);
+        return ResponseEntity.ok(modules);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteModuleById(@PathVariable Long id) {
+        moduleService.deleteModuleById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ModuleDTO> updateModule(@PathVariable Long id, @RequestBody ModuleDTO moduleDTO) {
+        var module = moduleService.updateModule(id, moduleDTO);
+        return ResponseEntity.ok(module);
+    }
 }

@@ -36,22 +36,34 @@ public class SecurityConfig {
                     .requestMatchers(
                         "/auth/**", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
                     .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/users/.*")
-                    .hasAnyRole(Role.STUDENT.name(), Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                    .requestMatchers(HttpMethod.POST, "/users/.*")
-                    .hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.INSTRUCTOR.name())
-                    .requestMatchers(HttpMethod.GET, "/courses/all", "/courses/{id}")
+                    .requestMatchers(HttpMethod.GET, "/courses/*", "/categories/*")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/courses/.*")
-                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                    .requestMatchers(HttpMethod.POST, "/lessons/.*")
-                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                    .requestMatchers(HttpMethod.POST, "/modules/.*")
-                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                    .requestMatchers(HttpMethod.POST, "/videos/upload")
-                    .hasAnyRole(Role.INSTRUCTOR.name(), Role.ADMIN.name())
-                    .requestMatchers(HttpMethod.POST, "/ratings/.*")
-                    .hasAnyRole(Role.STUDENT.name(), Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(HttpMethod.POST, "/auth/*")
+                    .permitAll()
+                    .requestMatchers(
+                        HttpMethod.GET, "/users/me", "/users/me/favorites", "/enrollments/*")
+                    .hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(
+                        HttpMethod.POST, "/courses/*", "videos/*", "/modules/*", "/lessons/*")
+                    .hasAnyRole(Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(
+                        HttpMethod.PUT, "/courses/*", "videos/*", "/modules/*", "/lessons/*")
+                    .hasAnyRole(Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(
+                        HttpMethod.DELETE, "/courses/*", "videos/*", "/modules/*", "/lessons/*")
+                    .hasAnyRole(Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(
+                        HttpMethod.POST,
+                        "/enrollments/*, ",
+                        "users/favorite-courses/*",
+                        "ratings/*")
+                    .hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(HttpMethod.POST, "/categories/*")
+                    .hasRole(Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.DELETE, "/categories/*")
+                    .hasRole(Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.PUT, "/categories/*")
+                    .hasRole(Role.ADMIN.name())
                     .anyRequest()
                     .authenticated())
         .build();
