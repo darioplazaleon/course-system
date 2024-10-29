@@ -33,15 +33,6 @@ public class IUserService implements UserService {
 
     @Override
     public UserDTO getMe(String jwtToken) {
-        System.out.println("Entering getMe");
-        System.out.println("Token received: " + jwtToken);
-
-        if (jwtToken.startsWith("Bearer ")) {
-            jwtToken = jwtToken.substring(7);
-        } else {
-            throw new IllegalArgumentException("Invalid Authorization header");
-        }
-
         Long userId = jwtAuthenticationProvider.getUserId(jwtToken);
         System.out.println("User id: " + userId);
         return userRepository.findById(userId)

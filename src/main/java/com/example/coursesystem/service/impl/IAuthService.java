@@ -32,7 +32,6 @@ public class IAuthService implements AuthService {
     @Override
     public JwtResponseDTO login(UserLoginDTO userLoginDTO) {
         Optional<User> user = userRepository.findByEmail(userLoginDTO.email());
-
         if (user.isEmpty()) {
             throw new UserNotFoundException("User with email " + userLoginDTO.email() + " does not exist");
         }

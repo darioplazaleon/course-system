@@ -29,14 +29,12 @@ public class UserController {
 
     @PostMapping("/favorite-courses/{courseId}")
     public ResponseEntity<Void> addFavoriteCourse(@RequestHeader("Authorization") String jwtToken, @PathVariable long courseId) {
-        String token = jwtToken.split(" ")[1];
-        userService.addFavoriteCourse(token, courseId);
+        userService.addFavoriteCourse(jwtToken, courseId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/me/favorites")
     public ResponseEntity<List<CourseDTO>> getFavoriteCourses(@RequestHeader("Authorization") String jwtToken) {
-        String token = jwtToken.split(" ")[1];
-        return ResponseEntity.ok(userService.getFavoriteCourses(token));
+        return ResponseEntity.ok(userService.getFavoriteCourses(jwtToken));
     }
 }
