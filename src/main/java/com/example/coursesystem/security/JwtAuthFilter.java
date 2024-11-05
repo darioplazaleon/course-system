@@ -32,14 +32,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
           "/v3/api-docs",
           "/favicon.ico",
           "/courses/all",
-          "/courses/.*",
+          "/courses/\\d+",
           "/categories/.*");
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
     String requestURI = request.getRequestURI();
     System.out.println("Entering shouldNotFilter: " + requestURI);
-    return urlsToSkip.stream().anyMatch(requestURI::matches);
+    boolean shouldSkip = urlsToSkip.stream().anyMatch(pattern -> requestURI.matches(pattern));
+    System.out.println("Should skip: " + shouldSkip);
+    return shouldSkip;
   }
 
   @Override

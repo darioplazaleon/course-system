@@ -64,6 +64,7 @@ public class IUserService implements UserService {
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Course with id " + courseId + " not found"));
+
         user.getFavoriteCourses().remove(course);
         userRepository.save(user);
     }

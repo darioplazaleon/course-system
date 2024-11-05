@@ -19,8 +19,7 @@ public class RatingController {
             @PathVariable Long courseId,
             @RequestBody RatingAddDTO ratingAddDTO
     ) {
-        String token = jwtToken.split(" ")[1];
-        var rating = ratingService.rateCourse(ratingAddDTO, courseId, token);
+        var rating = ratingService.rateCourse(ratingAddDTO, courseId, jwtToken);
         return ResponseEntity.ok(rating);
     }
 

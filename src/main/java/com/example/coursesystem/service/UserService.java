@@ -2,7 +2,6 @@ package com.example.coursesystem.service;
 
 import com.example.coursesystem.dto.course.CourseDTO;
 import com.example.coursesystem.dto.user.UserDTO;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
