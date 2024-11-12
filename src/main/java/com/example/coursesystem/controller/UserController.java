@@ -27,17 +27,18 @@ public class UserController {
   }
 
   @PostMapping("/favorite-courses/{courseId}")
-  public ResponseEntity<Void> addFavoriteCourse(
+  public ResponseEntity<String> addFavoriteCourse(
       @RequestHeader("Authorization") String jwtToken,
       @PathVariable long courseId,
       @RequestParam boolean favorite) {
 
     if (favorite) {
       userService.addFavoriteCourse(jwtToken, courseId);
+      return ResponseEntity.ok("Course added to favorites");
     } else {
       userService.removeFavoriteCourse(jwtToken, courseId);
+        return ResponseEntity.ok("Course removed from favorites");
     }
-    return ResponseEntity.ok().build();
   }
 
   @GetMapping("/me/favorites")

@@ -1,6 +1,7 @@
 package com.example.coursesystem.entity;
 
 import com.example.coursesystem.dto.user.UserAddDTO;
+import com.example.coursesystem.entity.cart.ShoppingCart;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -41,10 +42,14 @@ public class User {
     )
     private Set<Course> favoriteCourses = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ShoppingCart shoppingCart;
+
     public User(UserAddDTO userAddDTO, String password) {
         this.name = userAddDTO.name();
         this.email = userAddDTO.email();
         this.password = password;
         this.role = Role.STUDENT;
+        this.shoppingCart = new ShoppingCart();
     }
 }
