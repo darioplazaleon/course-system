@@ -53,10 +53,7 @@ public class SecurityConfig {
                         HttpMethod.DELETE, "/courses/*", "videos/*", "/modules/*", "/lessons/*")
                     .hasAnyRole(Role.ADMIN.name(), Role.INSTRUCTOR.name())
                     .requestMatchers(
-                        HttpMethod.POST,
-                        "/enrollments/*, ",
-                        "users/favorite-courses/",
-                        "ratings/")
+                        HttpMethod.POST, "/enrollments/*, ", "users/favorite-courses/", "ratings/")
                     .hasAnyRole(Role.ADMIN.name(), Role.STUDENT.name(), Role.INSTRUCTOR.name())
                     .requestMatchers(HttpMethod.POST, "/categories/*")
                     .hasRole(Role.ADMIN.name())
@@ -64,6 +61,14 @@ public class SecurityConfig {
                     .hasRole(Role.ADMIN.name())
                     .requestMatchers(HttpMethod.PUT, "/categories/*")
                     .hasRole(Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.POST, "/checkout/*")
+                    .hasAnyRole(Role.STUDENT.name(), Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(HttpMethod.GET, "/shoppingCart/*")
+                    .hasAnyRole(Role.STUDENT.name(), Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(HttpMethod.POST, "/shoppingCart/*")
+                    .hasAnyRole(Role.STUDENT.name(), Role.ADMIN.name(), Role.INSTRUCTOR.name())
+                    .requestMatchers(HttpMethod.DELETE, "/shoppingCart/*")
+                    .hasAnyRole(Role.STUDENT.name(), Role.ADMIN.name(), Role.INSTRUCTOR.name())
                     .anyRequest()
                     .authenticated())
         .build();
