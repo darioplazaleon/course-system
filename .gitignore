@@ -33,3 +33,5 @@ build/
 .vscode/
 /src/main/resources/application.properties
 /src/test/java/com/example/coursesystem/http-client.env.json
+
+docker-compose.yml
